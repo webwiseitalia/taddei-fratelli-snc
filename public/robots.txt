@@ -1,0 +1,12 @@
+# Robots.txt per Società Taddei
+# https://www.societataddei.it
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.societataddei.it/sitemap.xml
+
+# Disallow admin/private paths (if any)
+Disallow: /api/
+Disallow: /admin/

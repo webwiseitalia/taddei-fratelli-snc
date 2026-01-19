@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
 import {
   MapPin,
   Phone,
@@ -11,9 +10,15 @@ import {
   MessageSquare,
   CheckCircle2,
   AlertCircle,
+  ArrowUpRight,
 } from 'lucide-react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SplitType from 'split-type'
 
-import imgMagazzino from '../assets/magazzino-esterno.webp'
+import imgMagazzino from '../assets/colorificio-ingresso-taddei.webp'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const contacts = [
   {
@@ -21,7 +26,7 @@ const contacts = [
     title: 'Indirizzo',
     content: 'Via Artigiani, 44\n25040 Corteno Golgi (BS)',
     link: 'https://maps.google.com/?q=Via+Artigiani+44+Corteno+Golgi+BS',
-    linkText: 'Apri in Google Maps',
+    linkText: 'Apri in Maps',
   },
   {
     icon: Phone,
@@ -94,6 +99,13 @@ export default function Contatti() {
   const [status, setStatus] = useState({ type: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const heroRef = useRef(null)
+  const cardsRef = useRef(null)
+  const directRef = useRef(null)
+  const formRef = useRef(null)
+  const mapRef = useRef(null)
+  const faqRef = useRef(null)
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -103,7 +115,6 @@ export default function Contatti() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     setStatus({
@@ -113,94 +124,265 @@ export default function Contatti() {
     setFormData({ name: '', email: '', phone: '', department: '', message: '' })
     setIsSubmitting(false)
 
-    // Clear status after 5 seconds
     setTimeout(() => setStatus({ type: '', message: '' }), 5000)
   }
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero title
+      const heroTitle = heroRef.current?.querySelector('h1')
+      if (heroTitle) {
+        const split = new SplitType(heroTitle, { types: 'words' })
+        gsap.fromTo(split.words,
+          { y: 80, opacity: 0, rotateX: -45 },
+          {
+            y: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 1.2,
+            ease: 'power4.out',
+            stagger: 0.05,
+            delay: 0.2,
+          }
+        )
+      }
+
+      // Contact cards - staggered cascade
+      const cards = cardsRef.current?.querySelectorAll('.contact-card')
+      cards?.forEach((card, i) => {
+        gsap.fromTo(card,
+          { y: 60, opacity: 0, x: i % 2 === 0 ? -30 : 30 },
+          {
+            y: 0,
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+            },
+          }
+        )
+      })
+
+      // Direct contacts
+      const directItems = directRef.current?.querySelectorAll('.direct-item')
+      gsap.fromTo(directItems,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: directRef.current,
+            start: 'top 75%',
+          },
+        }
+      )
+
+      // Form
+      gsap.fromTo(formRef.current,
+        { x: -80, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: formRef.current,
+            start: 'top 75%',
+          },
+        }
+      )
+
+      // Map section
+      gsap.fromTo(mapRef.current,
+        { x: 60, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power4.out',
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: mapRef.current,
+            start: 'top 75%',
+          },
+        }
+      )
+
+      // FAQ items - scattered
+      const faqItems = faqRef.current?.querySelectorAll('.faq-item')
+      faqItems?.forEach((item, i) => {
+        const direction = i % 2 === 0 ? -1 : 1
+        gsap.fromTo(item,
+          { x: 50 * direction, y: 30, opacity: 0 },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+            },
+          }
+        )
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div className="bg-white">
-      {/* Hero */}
-      <section className="pt-32 pb-20 bg-neutral-900 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <img src={imgMagazzino} alt="" className="w-full h-full object-cover" />
+    <div className="bg-[#0a0a0a] overflow-hidden">
+      {/* HERO */}
+      <section ref={heroRef} className="relative min-h-[65vh] flex items-end pb-20 lg:pb-28 pt-32">
+        <div className="absolute inset-0">
+          <img
+            src={imgMagazzino}
+            alt="Sede Taddei - Corteno Golgi"
+            title="Contattaci - Società Taddei"
+            width={1920}
+            height={1080}
+            loading="eager"
+            className="w-full h-full object-cover opacity-45"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/95 to-[#0a0a0a]/70" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/40" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 via-neutral-900/95 to-neutral-900/80" />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Contatti</span>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
-              Parliamo del tuo progetto.
+
+        {/* Decorative elements */}
+        <div className="absolute top-1/3 right-[12%] w-px h-32 bg-gradient-to-b from-blue-500 to-transparent" />
+        <div className="absolute top-1/3 right-[12%] w-16 h-px bg-blue-500" />
+        <div className="absolute bottom-1/4 left-[5%] w-24 h-24 border border-blue-500/20" />
+
+        <div className="container-fluid relative z-10">
+          <div className="max-w-4xl ml-[3%]">
+            <div className="inline-flex items-center gap-4 mb-6">
+              <span className="w-16 h-px bg-blue-500" />
+              <span className="text-[11px] uppercase tracking-[0.3em] text-blue-500 font-medium">Contatti</span>
+            </div>
+
+            <h1 className="text-[clamp(2.5rem,7vw,4.5rem)] font-black leading-[0.9] tracking-tight text-white mb-6">
+              <span className="block">Parliamo</span>
+              <span className="block ml-[8%]">del tuo progetto.</span>
             </h1>
-            <p className="text-lg text-neutral-300 max-w-2xl">
-              Che tu abbia bisogno di un preventivo, una consulenza o semplicemente di informazioni, siamo qui per te.
+
+            <p className="text-lg text-neutral-400 max-w-lg ml-[5%]">
+              Preventivo, consulenza o informazioni. <span className="text-white">Siamo qui per te.</span>
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+      {/* CONTACT CARDS */}
+      <section ref={cardsRef} className="py-24 lg:py-32">
+        <div className="container-fluid">
+          <div className="grid md:grid-cols-3 gap-6">
             {contacts.map((contact, i) => (
-              <motion.div key={contact.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-neutral-50 p-8 text-center border-l-4 border-brand-500">
-                <div className="w-14 h-14 bg-brand-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <contact.icon className="w-7 h-7 text-brand-500" />
+              <div
+                key={contact.title}
+                className="contact-card group relative bg-[#0c0c0c] p-8 lg:p-10 overflow-hidden hover:bg-[#0f0f0f] transition-all duration-500"
+                style={{ marginTop: `${i * 2}rem` }}
+              >
+                {/* Accent */}
+                <div className="absolute top-0 left-0 w-1/4 h-[3px] bg-blue-500 group-hover:w-full transition-all duration-700" />
+
+                <div className="w-14 h-14 bg-blue-500/10 flex items-center justify-center mb-6 group-hover:bg-blue-500/20 transition-colors">
+                  <contact.icon className="w-6 h-6 text-blue-500" />
                 </div>
-                <h3 className="font-bold text-neutral-900 text-lg mb-2">{contact.title}</h3>
-                <p className="text-neutral-600 whitespace-pre-line mb-4">{contact.content}</p>
+
+                <h3 className="text-xl font-bold text-white mb-3">{contact.title}</h3>
+                <p className="text-neutral-400 whitespace-pre-line mb-6 leading-relaxed">{contact.content}</p>
+
                 {contact.link && (
                   <a
                     href={contact.link}
                     target={contact.link.startsWith('http') ? '_blank' : undefined}
                     rel={contact.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="text-brand-500 hover:text-brand-600 font-medium transition-colors"
+                    className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-400 font-medium transition-colors text-sm uppercase tracking-wider"
                   >
-                    {contact.linkText} →
+                    {contact.linkText}
+                    <ArrowUpRight className="w-4 h-4" />
                   </a>
                 )}
-              </motion.div>
+
+                {/* Corner decoration */}
+                <div className="absolute bottom-0 right-0 w-16 h-16 bg-neutral-900 group-hover:bg-blue-500/5 transition-colors duration-500" />
+              </div>
             ))}
           </div>
-
-          {/* Direct Contacts */}
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="bg-neutral-50 p-8 border-l-4 border-brand-500">
-            <h3 className="text-xl font-bold text-neutral-900 mb-6">Contatti diretti per reparto</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {emails.map((item) => (
-                <div key={item.email} className="p-4 bg-white shadow-sm">
-                  <div className="text-brand-500 font-semibold mb-1">{item.department}</div>
-                  <div className="text-neutral-900 mb-2">{item.contact}</div>
-                  <a href={`mailto:${item.email}`} className="text-neutral-600 hover:text-brand-500 transition-colors text-sm break-all">
-                    {item.email}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Form + Map */}
-      <section className="py-24 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+      {/* DIRECT CONTACTS */}
+      <section ref={directRef} className="py-24 lg:py-32 bg-[#0c0c0c]">
+        <div className="container-fluid">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 block mb-4">Per reparto</span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+                Contatti<br />
+                <span className="text-blue-500">diretti</span>
+              </h2>
+            </div>
+
+            <div className="lg:col-span-7 lg:col-start-6">
+              <div className="space-y-4">
+                {emails.map((item, i) => (
+                  <div
+                    key={item.email}
+                    className="direct-item group relative bg-[#0a0a0a] p-6 lg:p-8 hover:bg-[#0f0f0f] transition-all duration-500"
+                    style={{ marginLeft: `${i * 1.5}rem` }}
+                  >
+                    <div className="absolute left-0 top-0 w-[3px] h-full bg-blue-500/30 group-hover:bg-blue-500 transition-colors" />
+
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div>
+                        <span className="text-blue-500 text-sm font-semibold uppercase tracking-wider">{item.department}</span>
+                        <div className="text-white font-medium mt-1">{item.contact}</div>
+                      </div>
+                      <a
+                        href={`mailto:${item.email}`}
+                        className="text-neutral-400 hover:text-blue-500 transition-colors text-sm sm:text-base"
+                      >
+                        {item.email}
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FORM + MAP - Asymmetric */}
+      <section className="py-24 lg:py-40">
+        <div className="container-fluid">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
             {/* Form */}
-            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Modulo contatto</span>
-              <h2 className="text-3xl font-bold text-neutral-900 mt-3 mb-4">Scrivici un messaggio</h2>
-              <p className="text-neutral-600 mb-8">Compila il form e ti ricontatteremo entro 24 ore lavorative.</p>
+            <div ref={formRef} className="lg:col-span-6">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 block mb-4">Modulo contatto</span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1] mb-4">
+                Scrivici un<br />
+                <span className="text-blue-500">messaggio</span>
+              </h2>
+              <p className="text-neutral-500 mb-10">Risposta garantita entro 24 ore lavorative.</p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-2">
+                  <label htmlFor="name" className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2">
                     Nome e Cognome *
                   </label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-600" />
                     <input
                       type="text"
                       id="name"
@@ -208,7 +390,7 @@ export default function Contatti() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-white border border-neutral-300 text-neutral-900 pl-12 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+                      className="w-full bg-[#0c0c0c] border border-neutral-800 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600"
                       placeholder="Mario Rossi"
                     />
                   </div>
@@ -217,11 +399,11 @@ export default function Contatti() {
                 {/* Email + Phone */}
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
+                    <label htmlFor="email" className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2">
                       Email *
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-600" />
                       <input
                         type="email"
                         id="email"
@@ -229,24 +411,24 @@ export default function Contatti() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-white border border-neutral-300 text-neutral-900 pl-12 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+                        className="w-full bg-[#0c0c0c] border border-neutral-800 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600"
                         placeholder="mario@esempio.it"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-2">
+                    <label htmlFor="phone" className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2">
                       Telefono
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-600" />
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full bg-white border border-neutral-300 text-neutral-900 pl-12 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+                        className="w-full bg-[#0c0c0c] border border-neutral-800 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600"
                         placeholder="333 1234567"
                       />
                     </div>
@@ -255,17 +437,17 @@ export default function Contatti() {
 
                 {/* Department */}
                 <div>
-                  <label htmlFor="department" className="block text-sm font-medium text-neutral-700 mb-2">
+                  <label htmlFor="department" className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2">
                     Reparto di interesse
                   </label>
                   <div className="relative">
-                    <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                    <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-600" />
                     <select
                       id="department"
                       name="department"
                       value={formData.department}
                       onChange={handleChange}
-                      className="w-full bg-white border border-neutral-300 text-neutral-900 pl-12 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors appearance-none cursor-pointer"
+                      className="w-full bg-[#0c0c0c] border border-neutral-800 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
                     >
                       {departments.map((dept) => (
                         <option key={dept.value} value={dept.value}>
@@ -278,11 +460,11 @@ export default function Contatti() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
+                  <label htmlFor="message" className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2">
                     Messaggio *
                   </label>
                   <div className="relative">
-                    <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-neutral-400" />
+                    <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-neutral-600" />
                     <textarea
                       id="message"
                       name="message"
@@ -290,7 +472,7 @@ export default function Contatti() {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full bg-white border border-neutral-300 text-neutral-900 pl-12 pr-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors resize-none"
+                      className="w-full bg-[#0c0c0c] border border-neutral-800 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-blue-500 transition-colors resize-none placeholder:text-neutral-600"
                       placeholder="Descrivi il tuo progetto o la tua richiesta..."
                     />
                   </div>
@@ -300,8 +482,8 @@ export default function Contatti() {
                 {status.message && (
                   <div className={`flex items-center gap-3 p-4 ${
                     status.type === 'success'
-                      ? 'bg-green-50 border border-green-200 text-green-700'
-                      : 'bg-red-50 border border-red-200 text-red-700'
+                      ? 'bg-green-500/10 border border-green-500/30 text-green-400'
+                      : 'bg-red-500/10 border border-red-500/30 text-red-400'
                   }`}>
                     {status.type === 'success' ? (
                       <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
@@ -316,32 +498,35 @@ export default function Contatti() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="group w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 font-semibold text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                 >
                   {isSubmitting ? (
                     'Invio in corso...'
                   ) : (
                     <>
                       Invia messaggio
-                      <Send className="w-5 h-5" />
+                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
 
-                <p className="text-neutral-500 text-sm text-center">
-                  * Campi obbligatori. I tuoi dati saranno trattati secondo la normativa sulla privacy.
+                <p className="text-neutral-600 text-xs text-center">
+                  * Campi obbligatori. Dati trattati secondo normativa privacy.
                 </p>
               </form>
-            </motion.div>
+            </div>
 
             {/* Map */}
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Dove siamo</span>
-              <h2 className="text-3xl font-bold text-neutral-900 mt-3 mb-4">Vieni a trovarci</h2>
-              <p className="text-neutral-600 mb-8">Il nostro magazzino e uffici si trovano a Corteno Golgi, nel cuore dell'Alta Valle Camonica.</p>
+            <div ref={mapRef} className="lg:col-span-5 lg:col-start-8 mt-8 lg:mt-16">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 block mb-4">Dove siamo</span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1] mb-4">
+                Vieni a<br />
+                <span className="text-blue-500">trovarci</span>
+              </h2>
+              <p className="text-neutral-500 mb-8">Corteno Golgi, cuore dell'Alta Valle Camonica.</p>
 
               {/* Map */}
-              <div className="aspect-square bg-neutral-200 relative overflow-hidden mb-6 shadow-sm">
+              <div className="aspect-[4/3] bg-neutral-900 relative overflow-hidden mb-6">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2768.5!2d10.2456!3d46.1642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDbCsDA5JzUxLjEiTiAxMMKwMTQnNDQuMiJF!5e0!3m2!1sit!2sit!4v1234567890"
                   width="100%"
@@ -351,16 +536,18 @@ export default function Contatti() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Mappa Società Taddei"
+                  className="grayscale contrast-125"
                 />
+                <div className="absolute inset-0 bg-blue-500/10 pointer-events-none" />
               </div>
 
               {/* Address card */}
-              <div className="bg-white p-6 shadow-sm border-l-4 border-brand-500">
+              <div className="relative bg-blue-600 p-6 lg:p-8">
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-brand-500 flex-shrink-0 mt-1" />
+                  <MapPin className="w-6 h-6 text-white flex-shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-bold text-neutral-900 mb-1">Società Taddei</h4>
-                    <p className="text-neutral-600 mb-3">
+                    <h4 className="font-bold text-white mb-2">Società Taddei</h4>
+                    <p className="text-white/80 mb-4">
                       Via Artigiani, 44<br />
                       25040 Corteno Golgi (BS)
                     </p>
@@ -368,34 +555,51 @@ export default function Contatti() {
                       href="https://maps.google.com/?q=Via+Artigiani+44+Corteno+Golgi+BS"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-brand-500 hover:text-brand-600 font-medium transition-colors"
+                      className="inline-flex items-center gap-2 text-white font-medium hover:underline text-sm"
                     >
-                      Ottieni indicazioni stradali →
+                      Indicazioni stradali
+                      <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Domande frequenti</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3 mb-4">Risposte rapide</h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">Alcune delle domande più comuni che ci vengono poste.</p>
+      {/* FAQ - Scattered */}
+      <section ref={faqRef} className="py-24 lg:py-40 bg-[#0c0c0c]">
+        <div className="container-fluid">
+          <div className="max-w-4xl mb-16">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 block mb-4">FAQ</span>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+              Domande<br />
+              <span className="text-blue-500">frequenti</span>
+            </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl">
             {faqs.map((faq, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-neutral-50 p-6 border-l-4 border-brand-500">
-                <h4 className="font-bold text-neutral-900 mb-2">{faq.q}</h4>
-                <p className="text-neutral-600">{faq.a}</p>
-              </motion.div>
+              <div
+                key={i}
+                className="faq-item relative bg-[#0a0a0a] p-8 group hover:bg-[#0f0f0f] transition-colors duration-500"
+                style={{
+                  marginLeft: i % 2 === 1 ? '2rem' : 0,
+                  marginTop: i > 1 ? '-1rem' : 0,
+                }}
+              >
+                {/* Number */}
+                <span className="absolute -top-3 -left-3 w-8 h-8 bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
+                  {i + 1}
+                </span>
+
+                {/* Accent line */}
+                <div className="absolute top-0 right-0 w-1/3 h-[2px] bg-blue-500/30 group-hover:bg-blue-500 transition-colors duration-500" />
+
+                <h4 className="font-bold text-white mb-3 pr-8">{faq.q}</h4>
+                <p className="text-neutral-500 leading-relaxed">{faq.a}</p>
+              </div>
             ))}
           </div>
         </div>

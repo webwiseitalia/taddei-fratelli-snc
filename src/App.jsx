@@ -7,20 +7,28 @@ import Magazzino from './pages/Magazzino'
 import Immobiliare from './pages/Immobiliare'
 import Partner from './pages/Partner'
 import Contatti from './pages/Contatti'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import CookiePolicy from './pages/CookiePolicy'
+import CookieBanner from './components/CookieBanner'
 
 function App() {
   return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/chi-siamo" element={<ChiSiamo />} />
-        <Route path="/costruzioni" element={<Costruzioni />} />
-        <Route path="/magazzino" element={<Magazzino />} />
-        <Route path="/immobiliare" element={<Immobiliare />} />
-        <Route path="/partner" element={<Partner />} />
-        <Route path="/contatti" element={<Contatti />} />
-      </Routes>
-    </MainLayout>
+    <>
+      <CookieBanner />
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/chi-siamo" element={<ChiSiamo />} />
+          <Route path="/costruzioni" element={<Costruzioni />} />
+          <Route path="/magazzino" element={<Magazzino />} />
+          <Route path="/immobiliare" element={<Immobiliare />} />
+          <Route path="/partner" element={<Partner />} />
+          <Route path="/contatti" element={<Contatti />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+        </Routes>
+      </MainLayout>
+    </>
   )
 }
 

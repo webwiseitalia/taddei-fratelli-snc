@@ -1,58 +1,20 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import {
-  Home,
-  Building2,
-  Leaf,
-  Paintbrush,
-  Shield,
-  CheckCircle2,
-  MapPin,
-  Bed,
-  Bath,
-  Maximize,
-  Phone,
-  ArrowRight,
-} from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Phone, CheckCircle2, Home, MapPin, Maximize } from 'lucide-react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SplitType from 'split-type'
 
-import imgResidenze from '../assets/residenze-montagna-colorate.webp'
-import imgEdificio from '../assets/edificio-legno-pietra.webp'
-import imgResidenzeLegno from '../assets/residenze-legno-montagna.webp'
+import imgResidenze from '../assets/villette-colorate-montagna.webp'
+import imgCostruzione from '../assets/edificio-residenziale-vendita.webp'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const advantages = [
-  {
-    icon: Building2,
-    title: 'Costruttori diretti',
-    description: 'Non siamo intermediari. Vendiamo ciò che costruiamo. Conosci ogni dettaglio del tuo futuro immobile.',
-  },
-  {
-    icon: Paintbrush,
-    title: 'Personalizzazione totale',
-    description: 'Acquistando sulla carta, puoi personalizzare finiture, impianti e distribuzione degli spazi.',
-  },
-  {
-    icon: Leaf,
-    title: 'Efficienza energetica',
-    description: 'Tutti i nostri immobili sono progettati per massimizzare il comfort e minimizzare i consumi.',
-  },
-  {
-    icon: Shield,
-    title: 'Garanzia costruttore',
-    description: 'Garanzia decennale sulle strutture. Assistenza post-vendita diretta dal costruttore.',
-  },
-]
-
-const features = [
-  'Classe energetica A o superiore',
-  'Riscaldamento a pavimento',
-  'Impianto fotovoltaico predisposto',
-  'Cappotto termico certificato',
-  'Infissi in PVC triplo vetro',
-  'Ventilazione meccanica controllata',
-  'Domotica predisposta',
-  'Box auto incluso',
-  'Giardino privato o terrazzo',
-  'Materiali di prima scelta',
+  { num: '01', title: 'Nessun intermediario', desc: 'Compri direttamente da chi costruisce. Zero commissioni aggiuntive.' },
+  { num: '02', title: 'Prezzo trasparente', desc: 'Sai esattamente cosa paghi. Capitolato dettagliato, nessuna sorpresa.' },
+  { num: '03', title: 'Qualità garantita', desc: 'Costruiamo noi. Conosciamo ogni mattone, ogni tubo, ogni filo.' },
+  { num: '04', title: 'Personalizzazione', desc: 'Modifica finiture, materiali e dettagli durante la costruzione.' },
 ]
 
 const properties = [
@@ -60,229 +22,407 @@ const properties = [
     id: 1,
     title: 'Residenza Valle Verde',
     location: 'Corteno Golgi',
-    type: 'Appartamento',
     size: '85 mq',
-    rooms: 3,
-    baths: 2,
+    rooms: '3 locali',
     status: 'In costruzione',
-    price: 'Da € 180.000',
-    image: 'residenze',
+    statusType: 'building',
+    image: imgResidenze,
   },
   {
     id: 2,
     title: 'Villa Singola Panoramica',
     location: 'Edolo',
-    type: 'Villa',
     size: '150 mq',
-    rooms: 4,
-    baths: 3,
+    rooms: '4 locali',
     status: 'Disponibile',
-    price: 'Su richiesta',
-    image: 'edificio',
+    statusType: 'available',
+    image: imgCostruzione,
   },
   {
     id: 3,
     title: 'Bilocale Centro Storico',
     location: 'Ponte di Legno',
-    type: 'Appartamento',
     size: '55 mq',
-    rooms: 2,
-    baths: 1,
+    rooms: '2 locali',
     status: 'Venduto',
-    price: '-',
-    image: 'legno',
+    statusType: 'sold',
+    image: imgResidenze,
   },
 ]
 
-const propertyImages = {
-  residenze: imgResidenze,
-  edificio: imgEdificio,
-  legno: imgResidenzeLegno,
-}
+const features = [
+  'Classe energetica A+',
+  'Riscaldamento a pavimento',
+  'Predisposizione fotovoltaico',
+  'Serramenti PVC triplo vetro',
+  'VMC - Ventilazione meccanica',
+  'Predisposizione domotica',
+  'Cappotto termico 14cm',
+  'Garage o box auto',
+  'Cantina/ripostiglio',
+  'Giardino privato',
+]
 
 const process = [
-  {
-    step: '01',
-    title: 'Primo contatto',
-    description: 'Raccontaci cosa cerchi: zona, metratura, budget. Ti proponiamo le soluzioni più adatte.',
-  },
-  {
-    step: '02',
-    title: 'Visita e proposta',
-    description: "Visitiamo insieme il cantiere o l'immobile finito. Ti presentiamo la proposta dettagliata.",
-  },
-  {
-    step: '03',
-    title: 'Personalizzazione',
-    description: 'Se acquisti sulla carta, definiamo insieme le personalizzazioni desiderate.',
-  },
-  {
-    step: '04',
-    title: 'Acquisto',
-    description: 'Ti accompagniamo in ogni fase burocratica fino al rogito notarile.',
-  },
-  {
-    step: '05',
-    title: 'Consegna chiavi',
-    description: "Consegniamo l'immobile finito, collaudato e pronto per essere abitato.",
-  },
+  { step: '01', title: 'Visita', desc: 'Vieni a vedere l\'immobile o il terreno di persona.' },
+  { step: '02', title: 'Proposta', desc: 'Ti prepariamo un preventivo dettagliato senza impegno.' },
+  { step: '03', title: 'Personalizzazione', desc: 'Scegli finiture e modifiche prima della costruzione.' },
+  { step: '04', title: 'Costruzione', desc: 'Seguiamo insieme ogni fase del cantiere.' },
+  { step: '05', title: 'Consegna', desc: 'Le chiavi della tua nuova casa.' },
 ]
 
 export default function Immobiliare() {
+  const heroRef = useRef(null)
+  const introRef = useRef(null)
+  const advantagesRef = useRef(null)
+  const propertiesRef = useRef(null)
+  const processRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero
+      const heroTitle = heroRef.current?.querySelector('h1')
+      if (heroTitle) {
+        const split = new SplitType(heroTitle, { types: 'words' })
+        gsap.fromTo(split.words,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power4.out',
+            stagger: 0.06,
+            delay: 0.2,
+          }
+        )
+      }
+
+      // Advantages - diagonal cascade
+      const advItems = advantagesRef.current?.querySelectorAll('.adv-item')
+      advItems?.forEach((item, i) => {
+        gsap.fromTo(item,
+          { x: i % 2 === 0 ? -80 : 80, y: 40, opacity: 0 },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: advantagesRef.current,
+              start: 'top 75%',
+            },
+            delay: i * 0.15,
+          }
+        )
+      })
+
+      // Properties - scale reveal
+      const propItems = propertiesRef.current?.querySelectorAll('.prop-item')
+      propItems?.forEach((item, i) => {
+        const image = item.querySelector('img')
+        gsap.fromTo(item,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: propertiesRef.current,
+              start: 'top 70%',
+            },
+            delay: i * 0.2,
+          }
+        )
+
+        if (image) {
+          gsap.fromTo(image,
+            { scale: 1.2 },
+            {
+              scale: 1,
+              duration: 1.5,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: propertiesRef.current,
+                start: 'top 70%',
+              },
+              delay: i * 0.2,
+            }
+          )
+        }
+      })
+
+      // Process - timeline animation
+      const processItems = processRef.current?.querySelectorAll('.process-item')
+      processItems?.forEach((item, i) => {
+        gsap.fromTo(item,
+          { x: -40, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+            },
+          }
+        )
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
+
+  const getStatusStyles = (type) => {
+    switch (type) {
+      case 'available':
+        return 'bg-green-500 text-white'
+      case 'building':
+        return 'bg-blue-500 text-white'
+      case 'sold':
+        return 'bg-neutral-700 text-neutral-300'
+      default:
+        return 'bg-neutral-800 text-neutral-400'
+    }
+  }
+
   return (
-    <div className="bg-white">
-      {/* Hero */}
-      <section className="pt-32 pb-20 bg-neutral-900 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <img src={imgResidenze} alt="" className="w-full h-full object-cover" />
+    <div className="bg-[#0a0a0a] overflow-hidden">
+      {/* HERO */}
+      <section ref={heroRef} className="relative min-h-[70vh] flex items-end pb-20 lg:pb-32 pt-32">
+        <div className="absolute inset-0">
+          <img
+            src={imgResidenze}
+            alt="Residenze colorate nelle montagne - Immobiliare Taddei"
+            title="Immobili in vendita in Alta Valle Camonica"
+            width={1920}
+            height={1080}
+            loading="eager"
+            className="w-full h-full object-cover opacity-55"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-[#0a0a0a]/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/30" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 via-neutral-900/95 to-neutral-900/80" />
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Immobiliare</span>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
-              Compri dal costruttore. <span className="text-brand-500">Senza intermediari.</span>
+
+        <div className="absolute top-1/4 left-[8%] w-px h-24 bg-gradient-to-b from-blue-500 to-transparent" />
+        <div className="absolute top-1/4 left-[8%] w-12 h-px bg-blue-500" />
+
+        <div className="container-fluid relative z-10">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-4 mb-6">
+              <span className="w-12 h-px bg-blue-500" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-blue-500">Immobiliare</span>
+            </div>
+
+            <h1 className="text-[clamp(2.5rem,7vw,5rem)] font-black leading-[0.9] tracking-tight text-white mb-6">
+              <span className="block">Compri dal</span>
+              <span className="block ml-[5%]">costruttore.</span>
+              <span className="block text-blue-500 text-[0.65em] mt-2">Senza intermediari.</span>
             </h1>
-            <p className="text-lg text-neutral-300 max-w-2xl">
-              Immobiliare Taddei Srl: vendita diretta di immobili residenziali di nuova costruzione. Dalla fondazione alle chiavi, tutto in casa nostra.
+
+            <p className="text-lg text-neutral-400 max-w-lg ml-[3%]">
+              Immobili di nuova costruzione in Alta Valle Camonica.
+              Direttamente da chi li realizza.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Intro */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Il nostro approccio</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3 mb-6">
-                Sappiamo cosa vendiamo. <span className="text-brand-500">Perché l'abbiamo costruito noi.</span>
+      {/* ADVANTAGES - Broken 2x2 */}
+      <section ref={advantagesRef} className="py-24 lg:py-40">
+        <div className="container-fluid">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 lg:mb-24">
+            <div className="lg:max-w-xl">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 mb-4 block">
+                Perché sceglierci
+              </span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+                Il vantaggio di comprare
+                <span className="text-blue-500 block mt-1">da chi costruisce</span>
               </h2>
-              <div className="space-y-4 text-neutral-600 leading-relaxed">
-                <p><strong className="text-neutral-900">Immobiliare Taddei Srl</strong> nasce per completare la filiera. Costruiamo e vendiamo direttamente, senza passare attraverso agenzie o intermediari.</p>
-                <p>Questo significa che quando ti raccontiamo di un immobile, conosciamo ogni dettaglio: quali materiali abbiamo usato, come abbiamo risolto ogni problema tecnico, perché abbiamo fatto certe scelte costruttive.</p>
-                <p>E soprattutto significa che siamo qui, a rispondere delle nostre costruzioni, anche dopo la vendita.</p>
-              </div>
-              <div className="mt-8">
-                <Link to="/contatti" className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 font-semibold transition-all">
-                  Richiedi informazioni <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <img src={imgResidenze} alt="Residenze in montagna" className="w-full aspect-[4/3] object-cover shadow-lg" />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Advantages */}
-      <section className="py-24 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Perché sceglierci</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">I vantaggi di comprare dal costruttore</h2>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             {advantages.map((adv, i) => (
-              <motion.div key={adv.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-white p-8 text-center shadow-sm hover:shadow-md transition-all border-l-4 border-brand-500">
-                <div className="w-16 h-16 bg-brand-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <adv.icon className="w-8 h-8 text-brand-500" />
+              <div
+                key={adv.title}
+                className="adv-item group relative bg-[#0c0c0c] p-8 lg:p-10 overflow-hidden hover:bg-[#0f0f0f] transition-colors duration-500"
+                style={{ marginTop: i % 2 === 1 ? '3rem' : 0 }}
+              >
+                {/* Number */}
+                <span className="text-[100px] lg:text-[140px] font-black text-neutral-900 absolute -top-8 -right-4 leading-none select-none group-hover:text-blue-500/10 transition-colors duration-500">
+                  {adv.num}
+                </span>
+
+                <div className="relative z-10">
+                  <span className="text-[10px] text-neutral-600 tracking-widest mb-4 block">{adv.num}</span>
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-blue-500 transition-colors">
+                    {adv.title}
+                  </h3>
+                  <p className="text-neutral-500 leading-relaxed max-w-md">{adv.desc}</p>
                 </div>
-                <h3 className="text-xl font-bold text-neutral-900 mb-3">{adv.title}</h3>
-                <p className="text-neutral-600 text-sm">{adv.description}</p>
-              </motion.div>
+
+                {/* Accent */}
+                <div className="absolute top-0 left-0 w-1/3 h-[2px] bg-blue-500" />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Properties */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Offerte immobiliari</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">I nostri progetti</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {properties.map((property, i) => (
-              <motion.div key={property.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-neutral-50 overflow-hidden shadow-sm hover:shadow-md transition-all group">
-                {/* Image */}
-                <div className="aspect-[16/10] relative overflow-hidden">
-                  <img src={propertyImages[property.image]} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className={`absolute top-4 left-4 px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
-                    property.status === 'Disponibile' ? 'bg-green-500 text-white' :
-                    property.status === 'In costruzione' ? 'bg-brand-500 text-white' :
-                    'bg-neutral-500 text-white'
-                  }`}>
-                    {property.status}
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-neutral-500 text-sm mb-2">
-                    <MapPin className="w-4 h-4" />
-                    {property.location}
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-900 mb-3">{property.title}</h3>
-
-                  <div className="flex items-center gap-4 text-neutral-500 text-sm mb-4">
-                    <div className="flex items-center gap-1">
-                      <Maximize className="w-4 h-4" />
-                      {property.size}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Bed className="w-4 h-4" />
-                      {property.rooms}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Bath className="w-4 h-4" />
-                      {property.baths}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-neutral-200">
-                    <span className="text-lg font-bold text-brand-500">{property.price}</span>
-                    {property.status !== 'Venduto' && (
-                      <span className="text-sm text-neutral-500 group-hover:text-brand-500 transition-colors flex items-center">
-                        Info <ArrowRight className="w-4 h-4 ml-1" />
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <p className="text-neutral-600 mb-6">Cerchi qualcosa di specifico? Contattaci per conoscere tutti i progetti disponibili.</p>
-            <Link to="/contatti" className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 font-semibold transition-all">
-              Richiedi informazioni <ArrowRight className="w-4 h-4" />
+      {/* PROPERTIES - Irregular grid */}
+      <section ref={propertiesRef} className="py-24 lg:py-40 bg-[#0c0c0c]">
+        <div className="container-fluid">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 lg:mb-24">
+            <div>
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 mb-4 block">
+                Immobili
+              </span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+                Le nostre proposte
+              </h2>
+            </div>
+            <Link
+              to="/contatti"
+              className="group inline-flex items-center gap-2 text-blue-500 hover:text-white text-sm font-semibold uppercase tracking-wider transition-colors"
+            >
+              Tutte le disponibilità
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
+
+          <div className="grid lg:grid-cols-3 gap-4">
+            {properties.map((prop, i) => (
+              <div
+                key={prop.id}
+                className="prop-item group relative bg-[#0a0a0a] overflow-hidden"
+                style={{ marginTop: `${i * 2}rem` }}
+              >
+                {/* Image */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={prop.image}
+                    alt={prop.title}
+                    title={`${prop.title} - ${prop.location}`}
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+
+                  {/* Status badge */}
+                  <span className={`absolute top-4 left-4 px-3 py-1 text-[10px] uppercase tracking-widest font-semibold ${getStatusStyles(prop.statusType)}`}>
+                    {prop.status}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-500 transition-colors">
+                    {prop.title}
+                  </h3>
+
+                  <div className="flex items-center gap-2 text-neutral-500 text-sm mb-4">
+                    <MapPin className="w-4 h-4" />
+                    {prop.location}
+                  </div>
+
+                  <div className="flex gap-4 text-neutral-400 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Maximize className="w-4 h-4" />
+                      {prop.size}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Home className="w-4 h-4" />
+                      {prop.rooms}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hover line */}
+                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-blue-500 group-hover:w-full transition-all duration-500" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-24 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Standard costruttivi</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">Cosa trovi nei nostri immobili</h2>
+      {/* FEATURES - Scattered checklist */}
+      <section className="py-24 lg:py-40">
+        <div className="container-fluid">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 mb-4 block">
+                Standard costruttivo
+              </span>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1] mb-6">
+                Cosa trovi<br />
+                <span className="text-blue-500">di serie</span>
+              </h2>
+              <p className="text-neutral-500 leading-relaxed">
+                Ogni nostro immobile rispetta standard elevati di efficienza energetica e comfort abitativo.
+              </p>
+            </div>
+
+            <div className="lg:col-span-7 lg:col-start-6">
+              <div className="grid grid-cols-2 gap-3">
+                {features.map((feature, i) => (
+                  <div
+                    key={feature}
+                    className="flex items-center gap-3 p-4 bg-[#0c0c0c] hover:bg-[#111] transition-colors group"
+                    style={{ marginTop: i % 2 === 1 ? '1rem' : 0 }}
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                    <span className="text-neutral-400 text-sm group-hover:text-white transition-colors">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS - Timeline */}
+      <section ref={processRef} className="py-24 lg:py-40 bg-[#0c0c0c]">
+        <div className="container-fluid">
+          <div className="max-w-xl mb-16 lg:mb-24">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 mb-4 block">
+              Come funziona
+            </span>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+              Il percorso verso<br />
+              <span className="text-blue-500">la tua casa</span>
+            </h2>
           </div>
 
-          <div className="bg-white p-8 shadow-sm border-l-4 border-brand-500">
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {features.map((feature) => (
-                <div key={feature} className="flex items-center gap-3 text-neutral-700">
-                  <CheckCircle2 className="w-5 h-5 text-brand-500 flex-shrink-0" />
-                  {feature}
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute left-8 lg:left-16 top-0 bottom-0 w-px bg-neutral-800" />
+
+            <div className="space-y-12">
+              {process.map((item, i) => (
+                <div
+                  key={item.step}
+                  className="process-item relative flex gap-8 lg:gap-16"
+                  style={{ marginLeft: `${i * 1}rem` }}
+                >
+                  {/* Dot */}
+                  <div className="relative z-10 w-16 flex-shrink-0 flex items-start justify-center">
+                    <div className="w-4 h-4 bg-blue-500" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="pb-8">
+                    <span className="text-[40px] lg:text-[60px] font-black text-blue-500/20 block leading-none mb-2">
+                      {item.step}
+                    </span>
+                    <h3 className="text-xl lg:text-2xl font-bold text-white mb-2">{item.title}</h3>
+                    <p className="text-neutral-500 leading-relaxed max-w-md">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -290,50 +430,40 @@ export default function Immobiliare() {
         </div>
       </section>
 
-      {/* Process */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Come funziona</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">Il percorso verso casa tua</h2>
-          </div>
-
-          <div className="grid md:grid-cols-5 gap-6">
-            {process.map((item, i) => (
-              <motion.div key={item.step} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="relative">
-                {i < process.length - 1 && (
-                  <div className="hidden md:block absolute top-6 left-full w-full h-0.5 bg-neutral-200 -translate-x-1/2 z-0" />
-                )}
-                <div className="relative z-10">
-                  <div className="w-12 h-12 bg-brand-500 text-white font-bold text-sm flex items-center justify-center mb-4">
-                    {item.step}
-                  </div>
-                  <h3 className="font-bold text-neutral-900 mb-2">{item.title}</h3>
-                  <p className="text-neutral-600 text-sm">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-24 bg-brand-500">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Cerchi casa in Valle Camonica?</h2>
-          <p className="text-xl text-white/90 mb-10">Contatta Immobiliare Taddei per scoprire le opportunità disponibili. Nessun impegno, massima trasparenza.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contatti" className="inline-flex items-center justify-center gap-3 bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 font-semibold transition-all">
-              Contattaci <ArrowRight className="w-5 h-5" />
-            </Link>
-            <a href="tel:036474313" className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 font-semibold transition-all border border-white/30">
-              <Phone className="w-5 h-5" /> 0364 74313
-            </a>
+      <section className="py-24 lg:py-32">
+        <div className="container-fluid">
+          <div className="relative bg-blue-600 p-12 lg:p-20 overflow-hidden">
+            <span className="absolute -top-20 -right-20 text-[300px] font-black text-white/5 leading-none select-none">
+              ?
+            </span>
+
+            <div className="relative z-10 max-w-2xl">
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1.1] mb-6">
+                Cerchi la casa giusta?
+              </h2>
+              <p className="text-white/80 text-lg mb-10">
+                Contattaci per conoscere le disponibilità attuali o discutere di nuovi progetti su terreni di tua proprietà.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/contatti"
+                  className="group inline-flex items-center gap-3 bg-white text-blue-600 px-8 py-4 text-sm font-semibold uppercase tracking-wider hover:bg-neutral-100 transition-all"
+                >
+                  Contattaci
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <a
+                  href="tel:036474313"
+                  className="group inline-flex items-center gap-3 border-2 border-white/30 text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider hover:border-white hover:bg-white/10 transition-all"
+                >
+                  <Phone className="w-4 h-4" />
+                  0364 74313
+                </a>
+              </div>
+            </div>
           </div>
-          <p className="mt-8 text-white/70 text-sm">
-            <strong>Referente:</strong> Geom. Taddei Nicola – immobiliare@societataddei.it
-          </p>
         </div>
       </section>
     </div>
