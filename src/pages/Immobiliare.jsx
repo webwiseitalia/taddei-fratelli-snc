@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Home,
@@ -13,9 +14,10 @@ import {
   Phone,
   ArrowRight,
 } from 'lucide-react'
-import { PageHero } from '../components/Hero'
-import Section, { SectionHeader } from '../components/Section'
-import Button from '../components/Button'
+
+import imgResidenze from '../assets/residenze-montagna-colorate.webp'
+import imgEdificio from '../assets/edificio-legno-pietra.webp'
+import imgResidenzeLegno from '../assets/residenze-legno-montagna.webp'
 
 const advantages = [
   {
@@ -64,6 +66,7 @@ const properties = [
     baths: 2,
     status: 'In costruzione',
     price: 'Da € 180.000',
+    image: 'residenze',
   },
   {
     id: 2,
@@ -75,6 +78,7 @@ const properties = [
     baths: 3,
     status: 'Disponibile',
     price: 'Su richiesta',
+    image: 'edificio',
   },
   {
     id: 3,
@@ -86,8 +90,15 @@ const properties = [
     baths: 1,
     status: 'Venduto',
     price: '-',
+    image: 'legno',
   },
 ]
+
+const propertyImages = {
+  residenze: imgResidenze,
+  edificio: imgEdificio,
+  legno: imgResidenzeLegno,
+}
 
 const process = [
   {
@@ -98,7 +109,7 @@ const process = [
   {
     step: '02',
     title: 'Visita e proposta',
-    description: 'Visitiamo insieme il cantiere o l\'immobile finito. Ti presentiamo la proposta dettagliata.',
+    description: "Visitiamo insieme il cantiere o l'immobile finito. Ti presentiamo la proposta dettagliata.",
   },
   {
     step: '03',
@@ -113,154 +124,115 @@ const process = [
   {
     step: '05',
     title: 'Consegna chiavi',
-    description: 'Consegniamo l\'immobile finito, collaudato e pronto per essere abitato.',
+    description: "Consegniamo l'immobile finito, collaudato e pronto per essere abitato.",
   },
 ]
 
 export default function Immobiliare() {
   return (
-    <>
-      <PageHero
-        tag="Immobiliare"
-        title="Compri dal costruttore. Senza intermediari."
-        subtitle="Immobiliare Taddei Srl: vendita diretta di immobili residenziali di nuova costruzione. Dalla fondazione alle chiavi, tutto in casa nostra."
-      />
+    <div className="bg-white">
+      {/* Hero */}
+      <section className="pt-32 pb-20 bg-neutral-900 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img src={imgResidenze} alt="" className="w-full h-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 via-neutral-900/95 to-neutral-900/80" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Immobiliare</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 mb-6">
+              Compri dal costruttore. <span className="text-brand-500">Senza intermediari.</span>
+            </h1>
+            <p className="text-lg text-neutral-300 max-w-2xl">
+              Immobiliare Taddei Srl: vendita diretta di immobili residenziali di nuova costruzione. Dalla fondazione alle chiavi, tutto in casa nostra.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Intro */}
-      <Section>
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="heading-lg text-white mb-6">
-                Sappiamo cosa vendiamo.{' '}
-                <span className="text-gradient">Perché l'abbiamo costruito noi.</span>
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Il nostro approccio</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3 mb-6">
+                Sappiamo cosa vendiamo. <span className="text-brand-500">Perché l'abbiamo costruito noi.</span>
               </h2>
-              <div className="space-y-4 text-dark-300 leading-relaxed">
-                <p>
-                  <strong className="text-white">Immobiliare Taddei Srl</strong> nasce per completare
-                  la filiera. Costruiamo e vendiamo direttamente, senza passare attraverso agenzie
-                  o intermediari.
-                </p>
-                <p>
-                  Questo significa che quando ti raccontiamo di un immobile, conosciamo ogni dettaglio:
-                  quali materiali abbiamo usato, come abbiamo risolto ogni problema tecnico, perché
-                  abbiamo fatto certe scelte costruttive.
-                </p>
-                <p>
-                  E soprattutto significa che siamo qui, a rispondere delle nostre costruzioni,
-                  anche dopo la vendita. Non c'è un'agenzia che sparisce dopo il rogito.
-                  C'è il costruttore, pronto a garantire ciò che ha costruito.
-                </p>
+              <div className="space-y-4 text-neutral-600 leading-relaxed">
+                <p><strong className="text-neutral-900">Immobiliare Taddei Srl</strong> nasce per completare la filiera. Costruiamo e vendiamo direttamente, senza passare attraverso agenzie o intermediari.</p>
+                <p>Questo significa che quando ti raccontiamo di un immobile, conosciamo ogni dettaglio: quali materiali abbiamo usato, come abbiamo risolto ogni problema tecnico, perché abbiamo fatto certe scelte costruttive.</p>
+                <p>E soprattutto significa che siamo qui, a rispondere delle nostre costruzioni, anche dopo la vendita.</p>
+              </div>
+              <div className="mt-8">
+                <Link to="/contatti" className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 font-semibold transition-all">
+                  Richiedi informazioni <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="aspect-[4/3] bg-dark-900 border border-dark-800 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <Home className="w-24 h-24 text-primary-500/30 mx-auto mb-4" />
-                    <span className="text-dark-500 uppercase tracking-widest text-sm">
-                      Immagine progetto
-                    </span>
-                  </div>
-                </div>
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-primary-500" />
-                <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-primary-500" />
-              </div>
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <img src={imgResidenze} alt="Residenze in montagna" className="w-full aspect-[4/3] object-cover shadow-lg" />
             </motion.div>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* Advantages */}
-      <Section dark>
-        <div className="container-custom">
-          <SectionHeader
-            tag="Perché sceglierci"
-            title="I vantaggi di comprare dal costruttore"
-            description="Niente commissioni d'agenzia. Niente sorprese. Solo trasparenza e qualità garantita."
-          />
+      <section className="py-24 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Perché sceglierci</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">I vantaggi di comprare dal costruttore</h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {advantages.map((advantage, index) => (
-              <motion.div
-                key={advantage.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card-dark card-hover text-center"
-              >
-                <div className="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <advantage.icon className="w-8 h-8 text-primary-500" />
+            {advantages.map((adv, i) => (
+              <motion.div key={adv.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="bg-white p-8 text-center shadow-sm hover:shadow-md transition-all border-l-4 border-brand-500">
+                <div className="w-16 h-16 bg-brand-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <adv.icon className="w-8 h-8 text-brand-500" />
                 </div>
-                <h3 className="heading-sm text-white mb-3">{advantage.title}</h3>
-                <p className="text-dark-400 text-sm">{advantage.description}</p>
+                <h3 className="text-xl font-bold text-neutral-900 mb-3">{adv.title}</h3>
+                <p className="text-neutral-600 text-sm">{adv.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* Properties */}
-      <Section>
-        <div className="container-custom">
-          <SectionHeader
-            tag="Offerte immobiliari"
-            title="I nostri progetti"
-            description="Immobili in costruzione e disponibili. Contattaci per informazioni dettagliate e visite."
-          />
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Offerte immobiliari</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">I nostri progetti</h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {properties.map((property, index) => (
-              <motion.div
-                key={property.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card-dark card-hover group"
-              >
-                {/* Image placeholder */}
-                <div className="aspect-[16/10] bg-dark-800 relative mb-6 overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Home className="w-16 h-16 text-dark-700" />
-                  </div>
-                  {/* Status badge */}
+            {properties.map((property, i) => (
+              <motion.div key={property.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="bg-neutral-50 overflow-hidden shadow-sm hover:shadow-md transition-all group">
+                {/* Image */}
+                <div className="aspect-[16/10] relative overflow-hidden">
+                  <img src={propertyImages[property.image]} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className={`absolute top-4 left-4 px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
-                    property.status === 'Disponibile'
-                      ? 'bg-green-500 text-white'
-                      : property.status === 'In costruzione'
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-dark-600 text-dark-300'
+                    property.status === 'Disponibile' ? 'bg-green-500 text-white' :
+                    property.status === 'In costruzione' ? 'bg-brand-500 text-white' :
+                    'bg-neutral-500 text-white'
                   }`}>
                     {property.status}
                   </div>
                 </div>
 
-                {/* Content */}
-                <div>
-                  <div className="flex items-center gap-2 text-dark-400 text-sm mb-2">
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-neutral-500 text-sm mb-2">
                     <MapPin className="w-4 h-4" />
                     {property.location}
                   </div>
-                  <h3 className="heading-sm text-white mb-3">{property.title}</h3>
+                  <h3 className="text-xl font-bold text-neutral-900 mb-3">{property.title}</h3>
 
-                  {/* Features */}
-                  <div className="flex items-center gap-4 text-dark-400 text-sm mb-4">
+                  <div className="flex items-center gap-4 text-neutral-500 text-sm mb-4">
                     <div className="flex items-center gap-1">
                       <Maximize className="w-4 h-4" />
                       {property.size}
@@ -275,13 +247,10 @@ export default function Immobiliare() {
                     </div>
                   </div>
 
-                  {/* Price */}
-                  <div className="flex items-center justify-between pt-4 border-t border-dark-700">
-                    <span className="text-lg font-heading font-bold text-primary-500">
-                      {property.price}
-                    </span>
+                  <div className="flex items-center justify-between pt-4 border-t border-neutral-200">
+                    <span className="text-lg font-bold text-brand-500">{property.price}</span>
                     {property.status !== 'Venduto' && (
-                      <span className="text-sm text-dark-400 group-hover:text-primary-500 transition-colors flex items-center">
+                      <span className="text-sm text-neutral-500 group-hover:text-brand-500 transition-colors flex items-center">
                         Info <ArrowRight className="w-4 h-4 ml-1" />
                       </span>
                     )}
@@ -291,125 +260,82 @@ export default function Immobiliare() {
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-12 text-center"
-          >
-            <p className="text-dark-400 mb-6">
-              Cerchi qualcosa di specifico? Contattaci per conoscere tutti i progetti disponibili.
-            </p>
-            <Button to="/contatti" variant="primary">
-              Richiedi informazioni
-            </Button>
-          </motion.div>
+          <div className="mt-12 text-center">
+            <p className="text-neutral-600 mb-6">Cerchi qualcosa di specifico? Contattaci per conoscere tutti i progetti disponibili.</p>
+            <Link to="/contatti" className="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 font-semibold transition-all">
+              Richiedi informazioni <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Features */}
-      <Section dark>
-        <div className="container-custom">
-          <SectionHeader
-            tag="Standard costruttivi"
-            title="Cosa trovi nei nostri immobili"
-            description="Qualità costruttiva elevata, materiali selezionati e massima efficienza energetica. Standard, non optional."
-          />
+      <section className="py-24 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Standard costruttivi</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">Cosa trovi nei nostri immobili</h2>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="card-dark"
-          >
+          <div className="bg-white p-8 shadow-sm border-l-4 border-brand-500">
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {features.map((feature) => (
-                <div key={feature} className="flex items-center gap-3 text-dark-300">
-                  <CheckCircle2 className="w-5 h-5 text-primary-500 flex-shrink-0" />
+                <div key={feature} className="flex items-center gap-3 text-neutral-700">
+                  <CheckCircle2 className="w-5 h-5 text-brand-500 flex-shrink-0" />
                   {feature}
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Process */}
-      <Section>
-        <div className="container-custom">
-          <SectionHeader
-            tag="Come funziona"
-            title="Il percorso verso casa tua"
-            description="Dall'interesse all'acquisto, ti accompagniamo in ogni passo."
-          />
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">Come funziona</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">Il percorso verso casa tua</h2>
+          </div>
 
           <div className="grid md:grid-cols-5 gap-6">
-            {process.map((item, index) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative"
-              >
-                {/* Connector */}
-                {index < process.length - 1 && (
-                  <div className="hidden md:block absolute top-6 left-full w-full h-0.5 bg-dark-700 -translate-x-1/2 z-0" />
+            {process.map((item, i) => (
+              <motion.div key={item.step} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="relative">
+                {i < process.length - 1 && (
+                  <div className="hidden md:block absolute top-6 left-full w-full h-0.5 bg-neutral-200 -translate-x-1/2 z-0" />
                 )}
-
                 <div className="relative z-10">
-                  <div className="w-12 h-12 bg-primary-500 text-white font-heading font-bold text-sm flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-brand-500 text-white font-bold text-sm flex items-center justify-center mb-4">
                     {item.step}
                   </div>
-                  <h3 className="font-heading font-bold text-white mb-2">{item.title}</h3>
-                  <p className="text-dark-400 text-sm">{item.description}</p>
+                  <h3 className="font-bold text-neutral-900 mb-2">{item.title}</h3>
+                  <p className="text-neutral-600 text-sm">{item.description}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* CTA */}
-      <Section dark>
-        <div className="container-custom">
-          <div className="bg-gradient-to-r from-primary-600 to-primary-700 p-8 md:p-12 lg:p-16 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-
-            <div className="relative max-w-2xl">
-              <h2 className="heading-lg text-white mb-4">
-                Cerchi casa in Valle Camonica?
-              </h2>
-              <p className="text-xl text-white/80 mb-8">
-                Contatta Immobiliare Taddei per scoprire le opportunità disponibili.
-                Nessun impegno, massima trasparenza.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  to="/contatti"
-                  className="bg-white text-primary-600 hover:bg-dark-100"
-                >
-                  Contattaci
-                </Button>
-                <a
-                  href="tel:036474313"
-                  className="btn-secondary border-white text-white hover:bg-white/10 flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-5 h-5" />
-                  0364 74313
-                </a>
-              </div>
-              <p className="mt-6 text-white/60 text-sm">
-                <strong>Referente:</strong> Geom. Taddei Nicola – immobiliare@societataddei.it
-              </p>
-            </div>
+      <section className="py-24 bg-brand-500">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Cerchi casa in Valle Camonica?</h2>
+          <p className="text-xl text-white/90 mb-10">Contatta Immobiliare Taddei per scoprire le opportunità disponibili. Nessun impegno, massima trasparenza.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contatti" className="inline-flex items-center justify-center gap-3 bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 font-semibold transition-all">
+              Contattaci <ArrowRight className="w-5 h-5" />
+            </Link>
+            <a href="tel:036474313" className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 font-semibold transition-all border border-white/30">
+              <Phone className="w-5 h-5" /> 0364 74313
+            </a>
           </div>
+          <p className="mt-8 text-white/70 text-sm">
+            <strong>Referente:</strong> Geom. Taddei Nicola – immobiliare@societataddei.it
+          </p>
         </div>
-      </Section>
-    </>
+      </section>
+    </div>
   )
 }

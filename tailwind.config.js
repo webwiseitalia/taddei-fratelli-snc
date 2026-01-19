@@ -7,10 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        orange: {
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
+        brand: {
+          400: '#8BC4DB',
+          500: '#66AECC',
+          600: '#4A9ABD',
+          700: '#3A7A9A',
         },
       },
       fontFamily: {

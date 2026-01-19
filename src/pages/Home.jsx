@@ -1,117 +1,128 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Phone, Building2, Warehouse, Home as HomeIcon, Award, Shield, Users, MapPin } from 'lucide-react'
+import { ArrowRight, Phone, Award, Shield, Users, MapPin, ChevronDown } from 'lucide-react'
+
+import imgCostruzioni from '../assets/edificio-legno-pietra.webp'
+import imgMagazzino from '../assets/magazzino-esterno.webp'
+import imgImmobiliare from '../assets/residenze-montagna-colorate.webp'
+import imgHero from '../assets/residenze-montagna-colorate.webp'
 
 export default function Home() {
   return (
-    <div className="bg-neutral-950">
-      {/* HERO - Full screen, dramatic */}
-      <section className="min-h-screen flex flex-col justify-center relative overflow-hidden">
-        {/* Background texture */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }} />
-
-        {/* Orange accent line */}
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-orange-500 via-orange-500/50 to-transparent" />
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 relative z-10">
+    <div className="bg-white">
+      {/* HERO - Split layout with image */}
+      <section className="min-h-screen grid lg:grid-cols-2">
+        {/* Left content */}
+        <div className="flex flex-col justify-center bg-neutral-900 px-6 lg:px-16 py-32 lg:py-20 order-2 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Tag */}
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-12 bg-orange-500" />
-              <span className="text-orange-500 text-sm font-semibold tracking-[0.2em] uppercase">
-                Dal 1983
+            <div className="inline-flex items-center gap-3 mb-8 bg-brand-500 px-4 py-2">
+              <span className="text-white text-sm font-semibold tracking-wider uppercase">
+                Dal 1983 in Alta Valle Camonica
               </span>
             </div>
 
             {/* Main headline */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] mb-6">
-              Dal materiale
-              <br />
-              alla costruzione.
-              <br />
-              <span className="text-orange-500">Senza compromessi.</span>
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
+              Dal materiale alla costruzione.
+              <span className="block text-brand-500 mt-2">Senza compromessi.</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-neutral-400 max-w-2xl mb-12 leading-relaxed">
-              Edilizia, magazzino materiali e immobiliare in Alta Valle Camonica.
-              Un unico partner per ogni fase del tuo progetto.
+            <p className="text-lg text-neutral-400 max-w-xl mb-10 leading-relaxed">
+              Costruzioni, magazzino materiali edili e immobiliare.
+              Un unico interlocutore per ogni fase del tuo progetto.
             </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 to="/contatti"
-                className="inline-flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-semibold transition-all group"
+                className="inline-flex items-center justify-center gap-3 bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 text-lg font-semibold transition-all group"
               >
                 Richiedi preventivo
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
                 href="tel:036474313"
-                className="inline-flex items-center justify-center gap-3 border border-neutral-700 hover:border-orange-500 text-white px-8 py-4 text-lg font-semibold transition-all"
+                className="inline-flex items-center justify-center gap-3 border-2 border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white px-8 py-4 text-lg font-semibold transition-all"
               >
                 <Phone className="w-5 h-5" />
                 0364 74313
               </a>
             </div>
+
+            {/* Trust badges */}
+            <div className="flex flex-wrap gap-6 mt-12 pt-8 border-t border-neutral-800">
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-brand-500" />
+                <span className="text-sm text-neutral-400">Centro ferro certificato</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-brand-500" />
+                <span className="text-sm text-neutral-400">40+ anni di esperienza</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-brand-500" />
+                <span className="text-sm text-neutral-400">Gestione familiare</span>
+              </div>
+            </div>
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-neutral-700 rounded-full flex justify-center pt-2"
-          >
-            <div className="w-1 h-2 bg-orange-500 rounded-full" />
-          </motion.div>
+        {/* Right image */}
+        <div className="relative h-[50vh] lg:h-auto order-1 lg:order-2">
+          <img
+            src={imgHero}
+            alt="Residenze Taddei in montagna"
+            className="w-full h-full object-cover"
+          />
+          {/* Accent overlay */}
+          <div className="absolute bottom-0 left-0 right-0 h-2 bg-brand-500" />
+          <div className="absolute top-0 left-0 w-2 h-full bg-brand-500 hidden lg:block" />
         </div>
       </section>
 
       {/* I 3 PILASTRI */}
-      <section className="py-32 bg-neutral-900">
+      <section className="py-24 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-20"
+            className="text-center mb-16"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-12 bg-orange-500" />
-              <span className="text-orange-500 text-sm font-semibold tracking-[0.2em] uppercase">
-                I nostri servizi
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
-              Tre divisioni.<br />Un'unica visione.
+            <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">
+              I nostri servizi
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3">
+              Tre divisioni. Un'unica visione.
             </h2>
+            <p className="text-neutral-600 mt-4 max-w-2xl mx-auto">
+              Un gruppo integrato che copre l'intera filiera dell'edilizia: dalla fornitura dei materiali alla costruzione, fino alla vendita.
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-1">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: Building2,
+                image: imgCostruzioni,
                 title: 'Costruzioni',
                 desc: 'Costruzioni civili, ristrutturazioni complete e opere di urbanizzazione. Dalla fondazione al tetto.',
                 link: '/costruzioni',
               },
               {
-                icon: Warehouse,
+                image: imgMagazzino,
                 title: 'Magazzino Materiali',
                 desc: 'Centro trasformazione ferro certificato, materiali edili e consulenza tecnica gratuita.',
                 link: '/magazzino',
               },
               {
-                icon: HomeIcon,
+                image: imgImmobiliare,
                 title: 'Immobiliare',
                 desc: 'Vendita diretta di immobili residenziali. Compri dal costruttore, senza intermediari.',
                 link: '/immobiliare',
@@ -126,19 +137,24 @@ export default function Home() {
               >
                 <Link
                   to={item.link}
-                  className="block bg-neutral-950 p-10 h-full border-t-2 border-orange-500/0 hover:border-orange-500 transition-all group"
+                  className="block bg-white h-full shadow-sm hover:shadow-xl transition-all duration-300 group overflow-hidden"
                 >
-                  <item.icon className="w-12 h-12 text-orange-500 mb-6" strokeWidth={1.5} />
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-orange-500 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-neutral-400 mb-6 leading-relaxed">
-                    {item.desc}
-                  </p>
-                  <span className="inline-flex items-center gap-2 text-orange-500 font-semibold">
-                    Scopri di più
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-                  </span>
+                  <div className="aspect-[16/10] overflow-hidden relative">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 to-transparent" />
+                    <h3 className="absolute bottom-4 left-6 text-2xl font-bold text-white">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-neutral-600 mb-4 leading-relaxed">
+                      {item.desc}
+                    </p>
+                    <span className="inline-flex items-center gap-2 text-brand-500 font-semibold group-hover:gap-3 transition-all">
+                      Scopri di più
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -147,9 +163,9 @@ export default function Home() {
       </section>
 
       {/* NUMERI */}
-      <section className="py-32 bg-neutral-950 border-y border-neutral-800">
+      <section className="py-20 bg-neutral-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
               { value: '40+', label: 'Anni di esperienza' },
               { value: '3', label: 'Divisioni aziendali' },
@@ -164,10 +180,10 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center"
               >
-                <div className="text-5xl md:text-6xl font-bold text-orange-500 mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-brand-500 mb-2">
                   {stat.value}
                 </div>
-                <div className="text-neutral-400 uppercase tracking-wider text-sm">
+                <div className="text-neutral-400 text-sm font-medium">
                   {stat.label}
                 </div>
               </motion.div>
@@ -177,30 +193,34 @@ export default function Home() {
       </section>
 
       {/* PERCHÉ SCEGLIERCI */}
-      <section className="py-32 bg-neutral-900">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-20">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-12 bg-orange-500" />
-                <span className="text-orange-500 text-sm font-semibold tracking-[0.2em] uppercase">
-                  Perché noi
-                </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Non siamo il solito<br />magazzino edile.
+              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">
+                Perché sceglierci
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mt-3 mb-6">
+                Non siamo il solito magazzino edile.
               </h2>
-              <p className="text-xl text-neutral-400 leading-relaxed">
+              <p className="text-lg text-neutral-600 leading-relaxed mb-8">
                 Siamo costruttori che vendono materiali. Sappiamo cosa serve in cantiere
                 perché ci lavoriamo ogni giorno. Questo fa tutta la differenza.
               </p>
+              <Link
+                to="/chi-siamo"
+                className="inline-flex items-center gap-2 text-brand-500 font-semibold hover:gap-3 transition-all"
+              >
+                Scopri la nostra storia
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </motion.div>
 
-            <div className="space-y-8">
+            <div className="grid sm:grid-cols-2 gap-6">
               {[
                 {
                   icon: Award,
@@ -225,19 +245,15 @@ export default function Home() {
               ].map((item, i) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex gap-6"
+                  className="bg-neutral-50 p-6 border-l-4 border-brand-500"
                 >
-                  <div className="w-14 h-14 bg-orange-500/10 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-7 h-7 text-orange-500" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-neutral-400">{item.desc}</p>
-                  </div>
+                  <item.icon className="w-8 h-8 text-brand-500 mb-4" />
+                  <h3 className="text-lg font-bold text-neutral-900 mb-2">{item.title}</h3>
+                  <p className="text-neutral-600 text-sm">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -246,42 +262,46 @@ export default function Home() {
       </section>
 
       {/* CTA FINALE */}
-      <section className="py-32 bg-orange-500 relative overflow-hidden">
-        {/* Pattern */}
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+      <section className="py-24 bg-gradient-to-br from-neutral-900 to-neutral-800 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
+          <img src={imgMagazzino} alt="" className="w-full h-full object-cover" />
+        </div>
 
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Hai un progetto?<br />Parliamone.
-            </h2>
-            <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Preventivo gratuito e senza impegno. Siamo a tua disposizione
-              per ogni esigenza edile.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contatti"
-                className="inline-flex items-center justify-center gap-3 bg-neutral-950 hover:bg-neutral-900 text-white px-8 py-4 text-lg font-semibold transition-all group"
-              >
-                Contattaci ora
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <a
-                href="tel:036474313"
-                className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur text-white px-8 py-4 text-lg font-semibold transition-all"
-              >
-                <Phone className="w-5 h-5" />
-                0364 74313
-              </a>
-            </div>
-          </motion.div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="text-brand-500 text-sm font-semibold tracking-wider uppercase">
+                Inizia il tuo progetto
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-6">
+                Hai un progetto in mente? Parliamone.
+              </h2>
+              <p className="text-lg text-neutral-300 mb-8">
+                Preventivo gratuito e senza impegno. Siamo a tua disposizione
+                per ogni esigenza edile.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/contatti"
+                  className="inline-flex items-center justify-center gap-3 bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 text-lg font-semibold transition-all group"
+                >
+                  Contattaci ora
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <a
+                  href="tel:036474313"
+                  className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 text-lg font-semibold transition-all border border-white/20"
+                >
+                  <Phone className="w-5 h-5" />
+                  0364 74313
+                </a>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>
