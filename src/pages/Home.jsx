@@ -221,9 +221,9 @@ export default function Home() {
   return (
     <div className="bg-[#0a0a0a] overflow-hidden">
       {/* HERO - Broken grid, asymmetric */}
-      <section ref={heroRef} className="relative min-h-screen flex items-end pb-20 lg:pb-32">
+      <section ref={heroRef} className="relative min-h-[100svh] lg:min-h-screen flex items-start lg:items-end pt-20 pb-8 lg:pt-0 lg:pb-32">
         {/* Background image - offset */}
-        <div className="absolute top-0 right-0 w-full lg:w-[70%] h-[60vh] lg:h-full overflow-hidden">
+        <div className="absolute top-0 right-0 w-full lg:w-[70%] h-full overflow-hidden">
           <img
             src={imgHero}
             alt="Residenze alpine in legno e pietra - Costruzioni Taddei"
@@ -238,17 +238,17 @@ export default function Home() {
         </div>
 
         {/* Decorative elements */}
-        <div className="absolute top-[20%] left-[5%] w-px h-32 bg-gradient-to-b from-blue-500 to-transparent" />
-        <div className="absolute top-[15%] left-[5%] w-16 h-px bg-blue-500" />
+        <div className="absolute top-[20%] left-[5%] w-px h-32 bg-gradient-to-b from-blue-500 to-transparent hidden lg:block" />
+        <div className="absolute top-[15%] left-[5%] w-16 h-px bg-blue-500 hidden lg:block" />
         <div className="absolute bottom-[30%] right-[10%] w-24 h-24 border border-neutral-800 rotate-45 hidden lg:block" />
 
         {/* Content */}
-        <div className="container-fluid relative z-10 pt-32">
+        <div className="container-fluid relative z-10 pt-16 lg:pt-32">
           <div className="max-w-4xl">
             {/* Tag */}
-            <div className="inline-flex items-center gap-4 mb-8">
-              <span className="w-12 h-px bg-blue-500" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-blue-500 font-medium">
+            <div className="inline-flex items-center gap-3 lg:gap-4 mb-4 lg:mb-8">
+              <span className="w-8 lg:w-12 h-px bg-blue-500" />
+              <span className="text-[10px] lg:text-[11px] uppercase tracking-[0.2em] lg:tracking-[0.25em] text-blue-500 font-medium">
                 Dal 1983 in Alta Valle Camonica
               </span>
             </div>
@@ -256,24 +256,23 @@ export default function Home() {
             {/* Headline - Irregular line breaks */}
             <h1
               ref={headlineRef}
-              className="text-[clamp(2.5rem,8vw,6rem)] font-black leading-[0.9] tracking-tight text-white mb-8"
+              className="text-[clamp(2rem,10vw,6rem)] font-black leading-[0.95] tracking-tight text-white mb-4 lg:mb-8"
             >
               <span className="block">Dal materiale</span>
-              <span className="block ml-[5%] lg:ml-[10%]">alla costruzione.</span>
-              <span className="block text-blue-500 text-[0.7em] mt-2">Senza compromessi.</span>
+              <span className="block ml-0 lg:ml-[10%]">alla costruzione.</span>
+              <span className="block text-blue-500 text-[0.5em] mt-2 lg:mt-4">Il vostro punto di riferimento.</span>
             </h1>
 
             {/* Subline */}
             <p
               ref={sublineRef}
-              className="text-lg lg:text-xl text-neutral-400 max-w-xl leading-relaxed ml-[2%] lg:ml-[5%]"
+              className="text-sm lg:text-xl text-neutral-400 max-w-xl leading-relaxed"
             >
-              Costruzioni, magazzino materiali edili e immobiliare.
-              <span className="text-white"> Un unico interlocutore</span> per ogni fase del tuo progetto.
+              Commercio Materiali Edili · Legna e Pellet · Ceramiche · Lavorazione Ferro · Colorificio
             </p>
 
             {/* CTAs - Offset */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-12 ml-[2%] lg:ml-[5%]">
+            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 mt-8 lg:mt-12">
               <Link
                 to="/contatti"
                 className="group inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider transition-all duration-500"
@@ -302,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES - Broken grid, staggered cards */}
-      <section ref={servicesRef} className="relative py-32 lg:py-48">
+      <section ref={servicesRef} className="relative py-16 lg:py-32">
         {/* Section header - Off-center */}
         <div className="container-fluid mb-20 lg:mb-32">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
