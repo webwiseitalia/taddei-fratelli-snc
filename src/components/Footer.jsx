@@ -281,6 +281,17 @@ export default function Footer() {
                 >
                   Cookie Policy
                 </Link>
+                <span className="text-neutral-600 text-xs">
+                  Powered by{' '}
+                  <a
+                    href="https://webwiseitalia.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline hover:text-blue-400 transition-colors"
+                  >
+                    Webwise
+                  </a>
+                </span>
               </div>
             </div>
 
