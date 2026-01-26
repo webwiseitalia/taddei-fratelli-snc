@@ -5,8 +5,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgResidenze from '../assets/foto-new/casa-tetto-rosso-montagna.webp'
-import imgCostruzione from '../assets/foto-new/palazzina-ponteggi-montagna.webp'
+import imgResidenze from '../assets/costruzioni/casa-tetto-rosso-montagna.webp'
+import imgCostruzione from '../assets/costruzioni/palazzina-ponteggi-montagna.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

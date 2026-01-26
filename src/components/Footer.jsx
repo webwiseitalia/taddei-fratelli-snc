@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock, ArrowUp, ArrowUpRight } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-import logoTaddei from '../assets/logo-taddei.webp'
+import logoTaddei from '../assets/brand/logo-taddei.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

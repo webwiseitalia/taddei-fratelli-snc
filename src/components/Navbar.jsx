@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
-import logoTaddei from '../assets/logo-taddei.webp'
+import logoTaddei from '../assets/brand/logo-taddei.webp'
 
 const navigation = [
   { name: 'Home', href: '/' },

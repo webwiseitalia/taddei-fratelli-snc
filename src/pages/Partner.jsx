@@ -5,8 +5,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgMagazzino from '../assets/magazzino-interno-scaffali.webp'
-import imgLoghiPartner from '../assets/loghi-partner-marchi.webp'
+import imgMagazzino from '../assets/magazzino/magazzino-interno-scaffali.webp'
+import imgLoghiPartner from '../assets/partner/loghi-partner-marchi.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

@@ -5,11 +5,11 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgCostruzioni from '../assets/foto-new/cantiere-ponteggi-edificio-giallo.webp'
-import imgMagazzino from '../assets/foto-new/capannone-struttura-montagna.webp'
-import imgImmobiliare from '../assets/foto-new/casa-tetto-rosso-montagna.webp'
-import imgHero from '../assets/foto-new/palazzina-ponteggi-montagna.webp'
-import imgStats from '../assets/foto-new/operai-tetto-isolamento.webp'
+import imgCostruzioni from '../assets/costruzioni/cantiere-ponteggi-edificio-giallo.webp'
+import imgMagazzino from '../assets/costruzioni/capannone-struttura-montagna.webp'
+import imgImmobiliare from '../assets/costruzioni/casa-tetto-rosso-montagna.webp'
+import imgHero from '../assets/costruzioni/palazzina-ponteggi-montagna.webp'
+import imgStats from '../assets/costruzioni/operai-tetto-isolamento.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

@@ -16,7 +16,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgMagazzino from '../assets/colorificio-ingresso-taddei.webp'
+import imgMagazzino from '../assets/magazzino/colorificio-ingresso-taddei.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

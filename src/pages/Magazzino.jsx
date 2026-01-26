@@ -5,12 +5,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgMagazzino from '../assets/magazzino-ingresso-tegole.webp'
-import imgCentroFerro from '../assets/foto-new/armatura-muro-contenimento.webp'
-import imgColorificio from '../assets/colorificio-ingresso-taddei.webp'
-import imgScaffali from '../assets/magazzino-interno-scaffali.webp'
-import imgMateriali from '../assets/foto-new/getto-cemento-betoniera.webp'
-import imgPitture from '../assets/colorificio-vetrina.webp'
+import imgMagazzino from '../assets/magazzino/magazzino-ingresso-tegole.webp'
+import imgCentroFerro from '../assets/magazzino/armatura-muro-contenimento.webp'
+import imgColorificio from '../assets/magazzino/colorificio-ingresso-taddei.webp'
+import imgScaffali from '../assets/magazzino/magazzino-interno-scaffali.webp'
+import imgMateriali from '../assets/magazzino/getto-cemento-betoniera.webp'
+import imgPitture from '../assets/magazzino/colorificio-vetrina.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
