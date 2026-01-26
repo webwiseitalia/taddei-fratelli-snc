@@ -5,8 +5,16 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgCostruzione from '../assets/cantiere-costruzione-ponteggi.webp'
-import imgResidenze from '../assets/residenze-alpine-legno-pietra.webp'
+import imgCostruzione from '../assets/foto-new/cantiere-ponteggi-ristrutturazione.webp'
+import imgResidenze from '../assets/foto-new/casa-tetto-rosso-montagna.webp'
+import imgFondazioni from '../assets/foto-new/fondazioni-armature-casseri.webp'
+import imgTetto from '../assets/foto-new/lavori-tetto-operai.webp'
+import imgScavi from '../assets/foto-new/escavatore-case-scavo.webp'
+import imgRistrutturazione from '../assets/foto-new/operaio-ristrutturazione-balcone.webp'
+import imgGru from '../assets/foto-new/gru-montaggio-cantiere.webp'
+import imgArmature from '../assets/foto-new/armatura-fondazione-operai.webp'
+import imgImpianti from '../assets/foto-new/impianti-tubazioni-ristrutturazione.webp'
+import imgPalazzina from '../assets/foto-new/palazzina-ponteggi-montagna.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -298,41 +306,210 @@ export default function Costruzioni() {
         </div>
       </section>
 
-      {/* SHOWCASE */}
+      {/* SHOWCASE - Galleria lavori */}
       <section className="relative py-24 lg:py-40 bg-[#0c0c0c]">
         <div className="container-fluid">
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="max-w-xl mb-16 lg:mb-20">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 mb-4 block">
+              I nostri cantieri
+            </span>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-[1]">
+              Lavori in corso e<br />
+              <span className="text-blue-500">progetti realizzati</span>
+            </h2>
+          </div>
+
+          {/* Prima riga - 2 immagini grandi */}
+          <div className="grid lg:grid-cols-2 gap-6 mb-6">
             <div className="relative aspect-[4/3] overflow-hidden group">
               <img
-                src={imgResidenze}
-                alt="Residenze in montagna"
-                title="Costruzioni residenziali Taddei"
+                src={imgPalazzina}
+                alt="Palazzina in costruzione con ponteggi"
+                title="Costruzione residenziale in montagna"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8">
+              <div className="absolute bottom-0 left-0 p-6">
                 <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-2">Residenziale</span>
-                <h3 className="text-2xl font-bold text-white">Case e appartamenti</h3>
+                <h3 className="text-xl font-bold text-white">Palazzina in costruzione</h3>
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] overflow-hidden group lg:mt-16">
+            <div className="relative aspect-[4/3] overflow-hidden group">
               <img
                 src={imgCostruzione}
-                alt="Edifici commerciali"
-                title="Costruzioni commerciali e industriali"
+                alt="Ristrutturazione edificio con ponteggi"
+                title="Ristrutturazione completa edificio"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8">
-                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-2">Commerciale</span>
-                <h3 className="text-2xl font-bold text-white">Edifici e strutture</h3>
+              <div className="absolute bottom-0 left-0 p-6">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-2">Ristrutturazione</span>
+                <h3 className="text-xl font-bold text-white">Edificio con ponteggi</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Seconda riga - 3 immagini */}
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div className="relative aspect-square overflow-hidden group">
+              <img
+                src={imgFondazioni}
+                alt="Fondazioni con armature in ferro"
+                title="Lavori di fondazione"
+                width={600}
+                height={600}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-4">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-1">Fondazioni</span>
+                <h3 className="text-lg font-bold text-white">Armature e casseri</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-square overflow-hidden group">
+              <img
+                src={imgTetto}
+                alt="Operai al lavoro sul tetto"
+                title="Lavori di copertura"
+                width={600}
+                height={600}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-4">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-1">Coperture</span>
+                <h3 className="text-lg font-bold text-white">Lavori sul tetto</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-square overflow-hidden group">
+              <img
+                src={imgScavi}
+                alt="Escavatore durante lavori di scavo"
+                title="Movimento terra e scavi"
+                width={600}
+                height={600}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-4">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-1">Movimento terra</span>
+                <h3 className="text-lg font-bold text-white">Scavi e preparazione</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Terza riga - 4 immagini più piccole */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="relative aspect-[4/3] overflow-hidden group">
+              <img
+                src={imgGru}
+                alt="Gru da cantiere in montaggio"
+                title="Mezzi e attrezzature"
+                width={400}
+                height={300}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-3">
+                <h3 className="text-sm font-bold text-white">Gru e mezzi</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/3] overflow-hidden group">
+              <img
+                src={imgArmature}
+                alt="Armature in ferro per fondazioni"
+                title="Centro ferro certificato"
+                width={400}
+                height={300}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-3">
+                <h3 className="text-sm font-bold text-white">Armature in ferro</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/3] overflow-hidden group">
+              <img
+                src={imgRistrutturazione}
+                alt="Operaio durante ristrutturazione"
+                title="Ristrutturazioni edili"
+                width={400}
+                height={300}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-3">
+                <h3 className="text-sm font-bold text-white">Ristrutturazioni</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/3] overflow-hidden group">
+              <img
+                src={imgImpianti}
+                alt="Impianti elettrici e idraulici"
+                title="Impiantistica"
+                width={400}
+                height={300}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-3">
+                <h3 className="text-sm font-bold text-white">Impianti</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Ultima riga - 2 immagini */}
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="relative aspect-[16/9] overflow-hidden group">
+              <img
+                src={imgResidenze}
+                alt="Casa con tetto rosso in montagna"
+                title="Casa finita in Valle Camonica"
+                width={800}
+                height={450}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-2">Completato</span>
+                <h3 className="text-xl font-bold text-white">Residenza in montagna</h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-[16/9] overflow-hidden group">
+              <img
+                src={imgGru}
+                alt="Autogru durante sollevamento"
+                title="Sollevamento strutture"
+                width={800}
+                height={450}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6">
+                <span className="text-[10px] uppercase tracking-widest text-blue-500 block mb-2">Attrezzature</span>
+                <h3 className="text-xl font-bold text-white">Mezzi specializzati</h3>
               </div>
             </div>
           </div>

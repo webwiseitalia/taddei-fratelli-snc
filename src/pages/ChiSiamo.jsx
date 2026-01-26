@@ -5,9 +5,9 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-import imgMagazzino from '../assets/magazzino-ingresso-tegole.webp'
-import imgMateriali from '../assets/magazzino-interno-scaffali.webp'
-import imgFerro from '../assets/ferro-armature.webp'
+import imgMagazzino from '../assets/foto-new/capannone-struttura-montagna.webp'
+import imgMateriali from '../assets/foto-new/cantiere-ponteggi-edificio-giallo.webp'
+import imgFerro from '../assets/foto-new/fondazioni-ferro-getto.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
